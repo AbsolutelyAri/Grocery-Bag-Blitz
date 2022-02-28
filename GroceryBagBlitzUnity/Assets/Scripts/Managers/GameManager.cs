@@ -43,10 +43,11 @@ public class GameManager : MonoBehaviour
     }//end CheckGameManagerIsInScene()
     #endregion
 
+    #region Variables
     [Header("GENERAL SETTINGS")]
-    public string gameTitle = "Untitled Game";  //name of the game
-    public string gameCredits = "Made by Me"; //game creator(s)
-    public string copyrightDate = "Copyright " + thisDay; //date cretaed
+    public string gameTitle = "Grocery Bag Blitz";  //name of the game
+    public string gameCredits = "Made by Krieger (the great and powerful)"; //game creator(s)
+    public string copyrightDate = "Copyright " + thisDay; //date created
 
     [Header("GAME SETTINGS")]
 
@@ -59,12 +60,6 @@ public class GameManager : MonoBehaviour
     public int HighScore { get { return highScore; } set { highScore = value; } }//access to private variable highScore [get/set methods]
 
     [Space(10)]
-    
-    //static vairables can not be updated in the inspector, however private serialized fileds can be
-    [SerializeField] //Access to private variables in editor
-    private int numberOfLives; //set number of lives in the inspector
-    static public int lives; // number of lives for player 
-    public int Lives { get { return lives; } set { lives = value; } }//access to private variable died [get/set methods]
 
     static public int score;  //score value
     public int Score { get { return score; } set { score = value; } }//access to private variable died [get/set methods]
@@ -76,8 +71,8 @@ public class GameManager : MonoBehaviour
 
     [Space(10)]
     public string defaultEndMessage = "Game Over";//the end screen message, depends on winning outcome
-    public string looseMessage = "You Loose"; //Message if player looses
-    public string winMessage = "You Win"; //Message if player wins
+    public string looseMessage = "The Manager was called"; //Message if player loses
+    public string winMessage = "Good Bagging!"; //Message if player wins
     [HideInInspector] public string endMsg ;//the end screen message, depends on winning outcome
 
     [Header("SCENE SETTINGS")]
@@ -106,17 +101,18 @@ public class GameManager : MonoBehaviour
     private float currentTime; //sets current time for timer
     private bool gameStarted = false; //test if games has started
 
-    //Win/Loose conditon
+    //Win/Lose conditon
     [SerializeField] //to test in inspector
     private bool playerWon = false;
  
    //reference to system time
    private static string thisDay = System.DateTime.Now.ToString("yyyy"); //today's date as string
+    #endregion
 
 
     /*** MEHTODS ***/
-   
-   //Awake is called when the game loads (before Start).  Awake only once during the lifetime of the script instance.
+
+    //Awake is called when the game loads (before Start).  Awake only once during the lifetime of the script instance.
     void Awake()
     {
         //runs the method to check for the GameManager
@@ -144,7 +140,7 @@ public class GameManager : MonoBehaviour
         if (gameState == gameStates.Playing)
         {
             //if we have died and have no more lives, go to game over
-            if (levelLost && (lives == 0)) { GameOver(); }
+            if (levelLost) { GameOver(); }
 
         }//end if (gameState == gameStates.Playing)
 
@@ -165,7 +161,6 @@ public class GameManager : MonoBehaviour
 
         gameState = gameStates.Playing; //set the game state to playing
 
-        lives = numberOfLives; //set the number of lives
         score = 0; //set starting score
 
         //set High Score
@@ -248,5 +243,7 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.SetInt("HighScore", highScore); //set the playerPref for the high score
     }//end GetHighScore()
+
+    
 
 }

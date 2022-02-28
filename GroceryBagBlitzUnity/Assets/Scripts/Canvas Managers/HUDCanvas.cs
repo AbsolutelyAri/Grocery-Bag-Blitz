@@ -2,8 +2,8 @@
  * Created by: Akram Taghavi-Burrs
  * Date Created: Feb 23, 2022
  * 
- * Last Edited by: NA
- * Last Edited: Feb 23, 2022
+ * Last Edited by: Krieger
+ * Last Edited: Feb 28, 2022
  * 
  * Description: Updates HUD canvas referecing game manager
 ****/
@@ -24,23 +24,14 @@ public class HUDCanvas : MonoBehaviour
     public Text livesTextbox; //textbox for the lives
     public Text scoreTextbox; //textbox for the score
     public Text highScoreTextbox; //textbox for highscore
+    public Text timerTextbox; //textbox for the timer 
+    public Timer gameTimer;
+
     
-    //GM Data
-    private int level;
-    private int totalLevels;
-    private int lives;
-    private int score;
-    private int highscore;
 
     private void Start()
     {
         gm = GameManager.GM; //find the game manager
-
-        //reference to levle info
-        level = gm.gameLevelsCount;
-        totalLevels = gm.gameLevels.Length;
-
-
 
         SetHUD();
     }//end Start
@@ -54,19 +45,19 @@ public class HUDCanvas : MonoBehaviour
 
     void GetGameStats()
     {
-        lives = gm.Lives;
-        score = gm.Score;
-        highscore = gm.HighScore;
+        
     }
 
     void SetHUD()
     {
         //if texbox exsists update value
-        if (levelTextbox) { levelTextbox.text = "Level " + level + "/" + totalLevels; }
-        if (livesTextbox) { livesTextbox.text = "Lives " + lives; }
-        if (scoreTextbox) { scoreTextbox.text = "Score " + score; }
-        if (highScoreTextbox) { highScoreTextbox.text = "High Score " + highscore; }
+        if (timerTextbox) { SetTimer(); }
 
     }//end SetHUD()
+
+    void SetTimer()
+    {
+        timerTextbox.text = "0:" + gameTimer.GetTimeToDisplay().ToString("00");
+    }
 
 }
