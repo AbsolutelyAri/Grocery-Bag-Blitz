@@ -14,12 +14,16 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
+    [Header("Set in Inspector")]
+    public float easingPercentage = 0.3f; //easing on the velocity vector
+    public float maxMagnitude = 5f; //fastest the item is allowed to move when following the mouse
 
     private bool isClicked = false;
+    private Vector3 lastMousePosition;
     // Start is called before the first frame update
     void Start()
     {
-        
+        lastMousePosition = transform.position;
     }
 
     // Update is called once per frame
@@ -27,11 +31,45 @@ public class Item : MonoBehaviour
     {
         if (isClicked)
         {
-            //follow mouse until mouse clicked again
-        } 
-        else if (Input.GetMouseButton(0))
-        {
-            //check if this is the object being clicked, if so enable isClicked
+            Vector3 mousePosition2D = Input.mousePosition;
+
+            Vector3 mousePosition3D = Camera.main.ScreenToWorldPoint(mousePosition2D);
+            mousePosition3D.z = transform.position.z;
+            //transform.position = mousePosition3D; 
+
+            //make the object follow the mouse without going through solid objects
+            Vector3 velocityVector = (mousePosition3D - lastMousePosition) / Time.deltaTime;
+
+            if(velocityVector.magnitude > maxMagnitude) 
+            {
+                velocityVector.Normalize();
+                Debug.Log(velocityVector + " normalized");
+                velocityVector *= maxMagnitude;
+            }
+
+            GetComponent<Rigidbody>().velocity = Vector3.Lerp(velocityVector, GetComponent<Rigidbody>().velocity, easingPercentage);
+
+
+
+
+            lastMousePosition = mousePosition3D;
         }
+    }
+
+    private void OnMouseDown()
+    {
+        isClicked = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+        Debug.Log("object clicked " + transform.position);
+        Cursor.visible = false;
+    }
+
+    private void OnMouseUp()
+    {
+        isClicked = false;
+        GetComponent<Rigidbody>().useGravity = true;
+        Debug.Log("object unclicked");
+        Cursor.visible = true;
+        
     }
 }
