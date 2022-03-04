@@ -3,7 +3,7 @@
  * Date Created: Feb 28, 2022
  * 
  * Last Edited by: Krieger
- * Last Edited: Feb 28, 2022
+ * Last Edited: March 3, 2022
  * 
  * Description: Script that determines of the behavior of basic grocery items. Makes items follow the mouse when lmb is held down
 ****/
@@ -18,12 +18,15 @@ public class Item : MonoBehaviour
     public float easingPercentage = 0.3f; //easing on the velocity vector
     public float maxMagnitude = 5f; //fastest the item is allowed to move when following the mouse
 
+    GameManager gm;
+
     private bool isClicked = false;
     private Vector3 lastMousePosition;
     // Start is called before the first frame update
     void Start()
     {
         lastMousePosition = transform.position;
+        gm = GameManager.GM;
     }
 
     // Update is called once per frame
@@ -71,5 +74,22 @@ public class Item : MonoBehaviour
         Debug.Log("object unclicked");
         Cursor.visible = true;
         
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("collided");
+        if(other.gameObject.tag == "DeletionZone")
+        {
+            Debug.Log("collided with deletion zone");
+            //tell GameManager this object was deleted
+            Destroy(this.gameObject);
+        }
+        else if(other.gameObject.tag == "GameOverZone")
+        {
+            //tell GameManager this object was dropped and call GameOver
+            gm.GameOver();
+            Destroy(this.gameObject);
+        }
     }
 }

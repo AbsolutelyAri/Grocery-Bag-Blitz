@@ -20,9 +20,9 @@ public class HUDCanvas : MonoBehaviour
     GameManager gm; //reference to game manager
 
     [Header("Canvas SETTINGS")]
-    public Text levelTextbox; //textbox for level count
-    public Text livesTextbox; //textbox for the lives
-    public Text scoreTextbox; //textbox for the score
+    public Text jobTitleTextbox; //textbox for Job Title
+    public Text bestTitleTextbox; //textbox for the best job title
+    public Text itemsBaggedTextbox; //textbox for the items baggged
     public Text highScoreTextbox; //textbox for highscore
     public Text timerTextbox; //textbox for the timer 
     public Timer gameTimer;
@@ -52,12 +52,18 @@ public class HUDCanvas : MonoBehaviour
     {
         //if texbox exsists update value
         if (timerTextbox) { SetTimer(); }
+        if (jobTitleTextbox) { SetTitle(); }
 
     }//end SetHUD()
 
     void SetTimer()
     {
         timerTextbox.text = "0:" + gameTimer.GetTimeToDisplay().ToString("00");
+    }
+
+    void SetTitle()
+    {
+        jobTitleTextbox.text = "Job Title: " + gm.GetTitle();
     }
 
 }

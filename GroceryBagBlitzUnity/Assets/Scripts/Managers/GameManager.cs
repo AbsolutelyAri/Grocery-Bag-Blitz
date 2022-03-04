@@ -27,11 +27,11 @@ public class GameManager : MonoBehaviour
     //Check to make sure only one gm of the GameManager is in the scene
     void CheckGameManagerIsInScene()
     {
-    
+
         //Check if instnace is null
         if (gm == null)
         {
-           gm = this; //set gm to this gm of the game object
+            gm = this; //set gm to this gm of the game object
             Debug.Log(gm);
         }
         else //else if gm is not null a Game Manager must already exsist
@@ -61,8 +61,9 @@ public class GameManager : MonoBehaviour
 
     [Space(10)]
 
-    static public int score;  //score value
+    static public int score = 0;  //score value
     public int Score { get { return score; } set { score = value; } }//access to private variable died [get/set methods]
+    public int wavesSurvived; //number of waves the player has survived, used for job titles
 
     [SerializeField] //Access to private variables in editor
     [Tooltip("Check to test player lost the level")]
@@ -73,21 +74,21 @@ public class GameManager : MonoBehaviour
     public string defaultEndMessage = "Game Over";//the end screen message, depends on winning outcome
     public string looseMessage = "The Manager was called"; //Message if player loses
     public string winMessage = "Good Bagging!"; //Message if player wins
-    [HideInInspector] public string endMsg ;//the end screen message, depends on winning outcome
+    [HideInInspector] public string endMsg;//the end screen message, depends on winning outcome
 
     [Header("SCENE SETTINGS")]
     [Tooltip("Name of the start scene")]
     public string startScene;
-    
+
     [Tooltip("Name of the game over scene")]
     public string gameOverScene;
-    
+
     [Tooltip("Count and name of each Game Level (scene)")]
     public string[] gameLevels; //names of levels
     [HideInInspector]
     public int gameLevelsCount; //what level we are on
     private int loadLevel; //what level from the array to load
-     
+
     public static string currentSceneName; //the current scene name;
 
     [Header("FOR TESTING")]
@@ -104,9 +105,21 @@ public class GameManager : MonoBehaviour
     //Win/Lose conditon
     [SerializeField] //to test in inspector
     private bool playerWon = false;
- 
-   //reference to system time
-   private static string thisDay = System.DateTime.Now.ToString("yyyy"); //today's date as string
+
+    //reference to system time
+    private static string thisDay = System.DateTime.Now.ToString("yyyy"); //today's date as string
+
+    //how many items currently exist
+    public int numberOfItems = 0;
+
+    [Space(5)]
+    //list of job titles
+    public List<string> titles = new List<string>();
+    public string currentTitle; //current title as a string
+    private int titleIndex = 0; //index of the player's current title
+
+    private int nextTitleRequirement = 1;
+
     #endregion
 
 
@@ -120,10 +133,10 @@ public class GameManager : MonoBehaviour
 
         //store the current scene
         currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        
+
         //Get the saved high score
         GetHighScore();
-
+        currentTitle = titles[0];
     }//end Awake()
 
 
@@ -132,9 +145,6 @@ public class GameManager : MonoBehaviour
     {
         //if ESC is pressed , exit game
         if (Input.GetKey("escape")) { ExitGame(); }
-        
-        //Check for next level
-        if (nextLevel) { NextLevel(); }
 
         //if we are playing the game
         if (gameState == gameStates.Playing)
@@ -147,11 +157,13 @@ public class GameManager : MonoBehaviour
         //Check Score
         CheckScore();
 
+
+
     }//end Update
 
 
     //LOAD THE GAME FOR THE FIRST TIME OR RESTART
-   public void StartGame()
+    public void StartGame()
     {
         //SET ALL GAME LEVEL VARIABLES FOR START OF GAME
 
@@ -194,46 +206,26 @@ public class GameManager : MonoBehaviour
     {
         gameState = gameStates.GameOver; //set the game state to gameOver
 
-       if(playerWon) { endMsg = winMessage; } else { endMsg = looseMessage; } //set the end message
+        if (playerWon) { endMsg = winMessage; } else { endMsg = looseMessage; } //set the end message
 
         SceneManager.LoadScene(gameOverScene); //load the game over scene
         Debug.Log("Gameover");
     }
-    
-    
-    //GO TO THE NEXT LEVEL
-        void NextLevel()
-    {
-        nextLevel = false; //reset the next level
-
-        //as long as our level count is not more than the amount of levels
-        if (gameLevelsCount < gameLevels.Length)
-        {
-            gameLevelsCount++; //add to level count for next level
-            loadLevel = gameLevelsCount - 1; //find the next level in the array
-            SceneManager.LoadScene(gameLevels[loadLevel]); //load next level
-
-        }else{ //if we have run out of levels go to game over
-            GameOver();
-        } //end if (gameLevelsCount <=  gameLevels.Length)
-
-    }//end NextLevel()
 
     void CheckScore()
     { //This method manages the score on update. Right now it just checks if we are greater than the high score.
-  
         //if the score is more than the high score
         if (score > highScore)
-        { 
+        {
             highScore = score; //set the high score to the current score
-           PlayerPrefs.SetInt("HighScore", highScore); //set the playerPref for the high score
+            PlayerPrefs.SetInt("HighScore", highScore); //set the playerPref for the high score
         }//end if(score > highScore)
 
     }//end CheckScore()
 
     void GetHighScore()
     {//Get the saved highscore
- 
+
         //if the PlayerPref alredy exists for the high score
         if (PlayerPrefs.HasKey("HighScore"))
         {
@@ -244,6 +236,54 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("HighScore", highScore); //set the playerPref for the high score
     }//end GetHighScore()
 
-    
+    //check if the player has earned a new title
+    void CheckTitles()
+    {
+        if (wavesSurvived >= nextTitleRequirement)
+        {
+            Debug.Log("title upgrade earned " + titles.Count);
+            if (titles.Count > (titleIndex + 1))
+            {
+                titleIndex++;
+                currentTitle = titles[titleIndex];
+                Debug.Log(currentTitle);
+            }
 
+            nextTitleRequirement += 5;
+        }
+    }
+
+    //spawn a wave of items
+    public void SpawnItems()
+    {
+
+    }
+
+    //reduce the number of items by 1
+    public void DecrimentItems()
+    {
+        numberOfItems--;
+        score++;
+    }
+
+    //check if there are any items remaining
+    public void CheckItems()
+    {
+        Debug.Log("CheckItems called");
+        if (numberOfItems > 0)
+        {
+            GameOver();
+
+        }
+        else
+        {
+            wavesSurvived++;
+            CheckTitles();
+        }
+    }
+
+    public string GetTitle()
+    {
+        return currentTitle;
+    }
 }
