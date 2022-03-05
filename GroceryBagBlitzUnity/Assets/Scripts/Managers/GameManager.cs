@@ -112,7 +112,15 @@ public class GameManager : MonoBehaviour
     //how many items currently exist
     public int numberOfItems = 0;
 
+    //variables for spawning items
     [Space(5)]
+    [Header("ITEM SPAWNING")]
+    public List<GameObject> items = new List<GameObject>(); //list of item prefabs that will be spawned
+    int itemsToSpawn = 5;
+    public Vector3 itemSpawnPosition = new Vector3(-5f, 5f, 0f);
+
+    [Space(5)]
+    [Header("JOB TITLES")]
     //list of job titles
     public List<string> titles = new List<string>();
     public string currentTitle; //current title as a string
@@ -256,7 +264,12 @@ public class GameManager : MonoBehaviour
     //spawn a wave of items
     public void SpawnItems()
     {
-
+        for(int i = 0; i < itemsToSpawn; i++)
+        {
+            int newItemIndex = Random.next(0, items.Count);
+            GameObject newItem = Instantiate<GameObject>(items[newItemIndex]);
+            
+        }
     }
 
     //reduce the number of items by 1
