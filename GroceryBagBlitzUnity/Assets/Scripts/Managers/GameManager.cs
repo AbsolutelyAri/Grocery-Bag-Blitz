@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour
         {
             //if we have died and have no more lives, go to game over
             if (levelLost) { GameOver(); }
+            
 
         }//end if (gameState == gameStates.Playing)
 
@@ -266,9 +267,11 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < itemsToSpawn; i++)
         {
-            int newItemIndex = Random.next(0, items.Count);
+            int newItemIndex = UnityEngine.Random.Range(0, items.Count);
             GameObject newItem = Instantiate<GameObject>(items[newItemIndex]);
-            
+            Vector3 itemPos = itemSpawnPosition;
+            itemPos.x += i*2;
+            newItem.transform.position = itemPos;
         }
     }
 
@@ -292,6 +295,8 @@ public class GameManager : MonoBehaviour
         {
             wavesSurvived++;
             CheckTitles();
+            SpawnItems();
+
         }
     }
 
