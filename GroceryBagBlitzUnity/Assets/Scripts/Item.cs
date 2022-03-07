@@ -29,8 +29,8 @@ public class Item : MonoBehaviour
         gm = GameManager.GM;
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    void FixedUpdate()
     {
         if (isClicked)
         {
