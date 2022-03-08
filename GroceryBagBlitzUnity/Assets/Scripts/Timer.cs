@@ -15,37 +15,52 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    public bool timeStarted = true;
+    private bool timeStarted;
     public float timeRemaining;
     public float maxTime = 45f;
 
+    private bool test;
+
+    [SerializeField]
     GameManager gm;
 
     private void Awake()
     {
         timeRemaining = maxTime;
-        gm = GameManager.GM;
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        if (timeStarted)
+        gm = GameManager.GM;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (!gm.playing) { return; }
+
+        if (test != timeStarted) { Debug.Log("Something changed " + timeStarted); }
+
+        if (timeStarted == true)
         {
+            
             timeRemaining -= Time.deltaTime;
-            if(timeRemaining <= 0)
+            if (timeRemaining <= 0)
             {
                 timeRemaining = 0;
                 timeStarted = false;
-                gm.LevelLost = true;
+                gm.endMsg = "Too Slow!";
+                gm.GameOver();
             }
         }
+        test = timeStarted;
     }
 
     // Starts the timer
     public void TimerStart()
     {
+        Debug.Log("Timer going");
         timeStarted = true;
         timeRemaining = maxTime;
     }
@@ -54,6 +69,7 @@ public class Timer : MonoBehaviour
     public void TimerStop()
     {
         timeStarted = false;
+        Debug.Log("Timer Stopped " + timeStarted);
     }
 
     public int GetTimeToDisplay()

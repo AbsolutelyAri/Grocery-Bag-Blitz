@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DeletionZone
   - GameOverZone
+  - Conveyor
   layers:
   - Default
   - TransparentFX

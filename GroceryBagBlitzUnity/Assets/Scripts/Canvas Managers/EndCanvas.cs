@@ -21,6 +21,7 @@ public class EndCanvas : MonoBehaviour
 
     [Header("Canvas SETTINGS")]
     public Text endMsgTextbox; //textbox for the title
+    public Text finalScoreTextbox; //textbox for the final score
 
 
     private void Start()
@@ -31,7 +32,7 @@ public class EndCanvas : MonoBehaviour
 
         //Set the Canvas text from GM reference
         endMsgTextbox.text = gm.endMsg;
-
+        SetFinalScoreText();
     }
 
     public void GameRestart()
@@ -44,6 +45,11 @@ public class EndCanvas : MonoBehaviour
     {
         gm.ExitGame(); //refenece the ExitGame method on the game manager
 
+    }
+
+    private void SetFinalScoreText()
+    {
+        finalScoreTextbox.text = "You bagged " + gm.Score + " items\nYou got the job title " + gm.currentTitle;
     }
 
 }

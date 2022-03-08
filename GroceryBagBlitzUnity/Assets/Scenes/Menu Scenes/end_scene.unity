@@ -123,68 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &95156171
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 95156173}
-  - component: {fileID: 95156172}
-  m_Layer: 0
-  m_Name: _GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &95156172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 95156171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d49296548f6742498c9896ffedace25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameTitle: Untitled Game
-  gameCredits: Made by Me
-  copyrightDate: Copyright 2022
-  recordHighScore: 1
-  defaultHighScore: 1000
-  numberOfLives: 0
-  levelLost: 0
-  defaultEndMessage: Game Over
-  looseMessage: You Loose
-  winMessage: You Win
-  endMsg: 
-  startScene: start_scene
-  gameOverScene: end_scene
-  gameLevels:
-  - level_00
-  - level_01
-  nextLevel: 0
-  gameState: 0
-  playerWon: 0
---- !u!4 &95156173
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 95156171}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &660969369
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +221,7 @@ RectTransform:
   - {fileID: 1603309860}
   - {fileID: 1325284404}
   - {fileID: 1929308368}
+  - {fileID: 775120310}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -304,6 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endMsgTextbox: {fileID: 1603986571}
+  finalScoreTextbox: {fileID: 775120308}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,6 +337,87 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &775120307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 775120310}
+  - component: {fileID: 775120309}
+  - component: {fileID: 775120308}
+  m_Layer: 5
+  m_Name: txt_FinalScore
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &775120308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775120307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9490196, g: 0.7294118, b: 0.32156864, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 50
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 150
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'You Bagged ___
+
+    And Got the Job Title ________'
+--- !u!222 &775120309
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775120307}
+  m_CullTransparentMesh: 1
+--- !u!224 &775120310
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775120307}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 660969373}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 200}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &917374563
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,7 +924,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Game Designed by : Your Name Here'
+  m_Text: 'Game Designed by : Krieger (the wise and amazing)'
 --- !u!222 &1325284406
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -912,6 +933,104 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325284403}
   m_CullTransparentMesh: 1
+--- !u!1 &1418407389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1418407392}
+  - component: {fileID: 1418407391}
+  - component: {fileID: 1418407390}
+  m_Layer: 0
+  m_Name: _GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1418407390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418407389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd4377d89b9f4d49a1e710abb7038f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeRemaining: 0
+  maxTime: 30
+  gm: {fileID: 0}
+--- !u!114 &1418407391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418407389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d49296548f6742498c9896ffedace25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameTitle: GROCERY BAG BLITZ!
+  gameCredits: 'Game Designed by : Krieger (the great and powerful)'
+  copyrightDate: Copyright 2022
+  defaultHighScore: 1
+  wavesSurvived: 0
+  levelLost: 0
+  defaultEndMessage: You Were Fired
+  endMsg: 
+  startScene: start_scene
+  gameOverScene: end_scene
+  gameLevel: 
+  gameState: 0
+  playing: 0
+  numberOfItems: 0
+  items:
+  - {fileID: 8817391574124334185, guid: 866c65f6eb78b8141972daf8132b1d41, type: 3}
+  - {fileID: 7330895347084945834, guid: ca54dcf963b4282439d27890adc42b35, type: 3}
+  - {fileID: 6395217523459656288, guid: 929271751d6c98749824023135d82692, type: 3}
+  - {fileID: 4845135448627926155, guid: 23a56c0681004614d8e6f8be4c457c4e, type: 3}
+  itemSpawnPosition: {x: 15, y: 4, z: 0}
+  furthestBackX: 25
+  conveyorSpeed: 2
+  totalSpace: 0
+  titles:
+  - Fresh Hire
+  - Clerk
+  - Clerk First Class
+  - Experienced Bagger
+  - Bagging Artist
+  - Manager's Favorite
+  - CEO of Bagging
+  - Lord of the Aisle
+  - Distributor of Dinners
+  - Giver of Butter
+  - Grocery Demigod
+  - The Chosen One
+  currentTitle: 
+  bestTitleIndex: 0
+  timerMultiplier: 0.8
+--- !u!4 &1418407392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418407389}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1435434215
 GameObject:
   m_ObjectHideFlags: 0

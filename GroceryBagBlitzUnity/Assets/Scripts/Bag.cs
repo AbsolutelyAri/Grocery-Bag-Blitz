@@ -31,6 +31,9 @@ public class Bag : MonoBehaviour
     {
         gm = GameManager.GM;
         startPosition = transform.position;
+
+        gm.SpawnItems();
+        timer = gm.gameObject.GetComponent<Timer>();
     }
 
     void FixedUpdate()
@@ -76,6 +79,5 @@ public class Bag : MonoBehaviour
         Debug.Log("Stopping");
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         stopped = true;
-        
     }
 }

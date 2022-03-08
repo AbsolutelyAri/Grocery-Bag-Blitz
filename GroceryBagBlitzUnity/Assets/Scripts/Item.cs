@@ -3,7 +3,7 @@
  * Date Created: Feb 28, 2022
  * 
  * Last Edited by: Krieger
- * Last Edited: March 3, 2022
+ * Last Edited: March 7, 2022
  * 
  * Description: Script that determines of the behavior of basic grocery items. Makes items follow the mouse when lmb is held down
 ****/
@@ -17,16 +17,18 @@ public class Item : MonoBehaviour
     [Header("Set in Inspector")]
     public float easingPercentage = 0.3f; //easing on the velocity vector
     public float maxMagnitude = 5f; //fastest the item is allowed to move when following the mouse
+    public float width = 4;
 
     GameManager gm;
 
     private bool isClicked = false;
     private Vector3 lastMousePosition;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         lastMousePosition = transform.position;
         gm = GameManager.GM;
+        gm.totalSpace += width;
     }
 
     
@@ -46,7 +48,6 @@ public class Item : MonoBehaviour
             if(velocityVector.magnitude > maxMagnitude) 
             {
                 velocityVector.Normalize();
-                Debug.Log(velocityVector + " normalized");
                 velocityVector *= maxMagnitude;
             }
 
@@ -63,7 +64,6 @@ public class Item : MonoBehaviour
     {
         isClicked = true;
         GetComponent<Rigidbody>().isKinematic = false;
-        Debug.Log("object clicked " + transform.position);
         Cursor.visible = false;
     }
 
@@ -71,25 +71,50 @@ public class Item : MonoBehaviour
     {
         isClicked = false;
         GetComponent<Rigidbody>().useGravity = true;
-        Debug.Log("object unclicked");
         Cursor.visible = true;
         
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collided");
+        
         if(other.gameObject.tag == "DeletionZone")
         {
-            Debug.Log("collided with deletion zone");
             //tell GameManager this object was deleted
+            gm.DecrimentItems();
             Destroy(this.gameObject);
         }
         else if(other.gameObject.tag == "GameOverZone")
         {
-            //tell GameManager this object was dropped and call GameOver
-            gm.GameOver();
+            if (gm.playing)
+            {
+                //tell GameManager this object was dropped and call GameOver
+                gm.endMsg = "You dropped something";
+                gm.GameOver();
+            }
             Destroy(this.gameObject);
         }
+        else if(other.gameObject.tag == "Conveyor" && !isClicked)
+        {
+            Vector3 pos = transform.position;
+            pos.x -= gm.conveyorSpeed * Time.deltaTime;
+            transform.position = pos;
+            
+        }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Conveyor" && !isClicked)
+        {
+            Vector3 pos = transform.position;
+            pos.x -= gm.conveyorSpeed * Time.deltaTime;
+            transform.position = pos;
+            
+        }
+    }
+
+
+
+
 }

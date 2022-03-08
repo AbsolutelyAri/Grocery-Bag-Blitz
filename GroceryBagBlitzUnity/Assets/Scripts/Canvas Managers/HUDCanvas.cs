@@ -29,10 +29,10 @@ public class HUDCanvas : MonoBehaviour
 
     
 
-    private void Start()
+    private void Awake()
     {
         gm = GameManager.GM; //find the game manager
-
+        gameTimer = gm.gameObject.GetComponent<Timer>();
         SetHUD();
     }//end Start
 
@@ -53,6 +53,9 @@ public class HUDCanvas : MonoBehaviour
         //if texbox exsists update value
         if (timerTextbox) { SetTimer(); }
         if (jobTitleTextbox) { SetTitle(); }
+        if (bestTitleTextbox) { SetBestTitle(); }
+        if (itemsBaggedTextbox) { SetItemsBagged();  }
+        if (highScoreTextbox) { SetHighScore(); }
 
     }//end SetHUD()
 
@@ -66,4 +69,18 @@ public class HUDCanvas : MonoBehaviour
         jobTitleTextbox.text = "Job Title: " + gm.GetTitle();
     }
 
+    void SetBestTitle()
+    {
+        bestTitleTextbox.text = "Best Title: " + gm.GetBestTitle();
+    }
+
+    void SetItemsBagged()
+    {
+        itemsBaggedTextbox.text = "Items Bagged: " + gm.Score;
+    }
+
+    void SetHighScore()
+    {
+        highScoreTextbox.text = "Most Items Bagged: " + gm.HighScore;
+    }
 }
